@@ -1,0 +1,9 @@
+[package]
+name = "all_it_ebooks_crawler"
+version = "0.1.0"
+authors = ["itmin <itminus@hotmail.com>"]
+
+[dependencies]
+regex = "0.2.10"
+select = "0.4.2"
+reqwest = "0.8.5"
