@@ -60,11 +60,19 @@ impl Crawler{
 
     }
 
+    fn generate_next_url(&self,next:&str) -> Result<Url,::reqwest::UrlError> {
+        Url::parse( &self.host )?
+            .join(next)
+    }
+
     pub fn crawl(&self , seed : &str){
         let next=self.crawl_page_recursive(seed, 3);
         if let Ok(next) = next {
             println!("捕获到下一页: 《{}》，开始抓取", next);
-            self.crawl(&next);
+            match self.generate_next_url(&next) {
+                Ok(next) => self.crawl(next.as_str()) ,
+                Err(msg)  => println!("解析下一页地址错误，抓取结束 ... \r\ncurrent host: {} \r\n next url {}", self.host,msg)
+            }
         }else{
             println!("未抓取到下一页，抓取结束");
         }
